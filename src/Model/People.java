@@ -13,11 +13,14 @@ public abstract class People {
   
 private String name;
 private int year;
+private static int code = 1;
+private int cod;
 
     
 public People(String name, int year){
     this.name = name;
     this.year = year;
+    this.cod = code++;
 }
 
     /**
@@ -46,6 +49,13 @@ public People(String name, int year){
      */
     public void setYear(int year) {
         this.year = year;
+    }
+
+    /**
+     * @return the cod
+     */
+    public int getCod() {
+        return cod;
     }
     
 
