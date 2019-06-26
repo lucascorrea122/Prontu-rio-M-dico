@@ -5,6 +5,8 @@
  */
 package medical.records;
 
+import Frames.AdministratorUsers;
+
 /**
  *
  * @author LucasCorrea
@@ -16,6 +18,11 @@ public class MedicalRecords {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        AdministratorUsers oi = new AdministratorUsers();
+        oi.setVisible(true);
+        
+        
     }
     
 }

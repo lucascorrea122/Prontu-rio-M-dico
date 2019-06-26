@@ -9,7 +9,7 @@ package Model;
  *
  * @author LucasCorrea
  */
-public enum TypeMedicine {
+public enum MedicineType {
     
     COMPRIMIDO,
     INJECAO,

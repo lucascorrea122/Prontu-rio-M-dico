@@ -13,10 +13,10 @@ public class Medicine {
     
     private String name; 
     private int quantidade;
-    private TypeMedicine typeMedicine;
+    private MedicineType typeMedicine;
     
     
-    public Medicine(String name, int quantidade, TypeMedicine type){
+    public Medicine(String name, int quantidade, MedicineType type){
         this.name = name;
         this.quantidade = quantidade;
         this.typeMedicine = type;
@@ -53,14 +53,14 @@ public class Medicine {
     /**
      * @return the typeMedicine
      */
-    public TypeMedicine getTypeMedicine() {
+    public MedicineType getTypeMedicine() {
         return typeMedicine;
     }
 
     /**
      * @param typeMedicine the typeMedicine to set
      */
-    public void setTypeMedicine(TypeMedicine typeMedicine) {
+    public void setTypeMedicine(MedicineType typeMedicine) {
         this.typeMedicine = typeMedicine;
     }
     
