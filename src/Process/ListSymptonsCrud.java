@@ -215,4 +215,8 @@ public class ListSymptonsCrud implements ListSymptons{
 
         br.close();
     }
+
+    public void insertStringSymptom(String name){
+        
+    }
 }

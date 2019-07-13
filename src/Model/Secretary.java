@@ -24,7 +24,7 @@ public class Secretary extends People {
     
     @Override
     public String toString(){
-        String dados = super.getCod()+super.getName()+" - Secretary";
+        String dados = super.getCod()+" - "+super.getName()+" - Secretary";
         return dados;
     }
 }

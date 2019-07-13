@@ -5,11 +5,16 @@
  */
 package Frames;
 
+import Model.Medicine;
 import Model.Symptom;
 import Model.UserType;
+import Process.ListMedicineCrud;
 import Process.ListSymptonsCrud;
 import java.io.IOException;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,13 +24,68 @@ public class NewDisease extends javax.swing.JFrame {
     
     
     private ListSymptonsCrud listSymptons = new ListSymptonsCrud("Symptons");
-
+    private ListMedicineCrud listMedicines = new ListMedicineCrud("Medicines");
+ 
     /**
      * Creates new form NewDisease
      */
     public NewDisease() throws IOException {
         initComponents();
         this.listSymptons.readingSymptons();
+        this.listMedicines.readingMedicines();
+        listar(0, false);
+        listarMedicines(0, false);
+        this.setLocationRelativeTo(null);
+    }
+
+    private NewDisease(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+  
+    
+    
+    
+    public void listar(int cod, boolean isPesquisa) {
+        DefaultListModel modelList = new DefaultListModel();
+
+        if (isPesquisa) {
+            Symptom symptons = listSymptons.consultBtCode(cod);
+            if (symptons == null) {
+                JOptionPane.showMessageDialog(null, "%%%%%%%%%%%");
+            } else {
+                modelList.addElement(symptons.toString());
+                
+            }
+        } else {
+            List<Symptom> symptom = listSymptons.getLista();
+            for (Symptom symptom1 : symptom) {
+                modelList.addElement(symptom1.toString());
+            }
+        }
+        
+        jListMedicinesCreates.setModel(modelList);
+    }
+    
+    public void listarMedicines(int cod, boolean isPesquisa) {
+        DefaultListModel modelList = new DefaultListModel();
+
+        if (isPesquisa) {
+            Medicine medicines = listMedicines.consultByCode(cod);
+            if (medicines == null) {
+                JOptionPane.showMessageDialog(null, "%%%%%%%%%%%");
+            } else {
+                modelList.addElement(medicines.toString());
+                
+            }
+        } else {
+            List<Medicine> medicines = listMedicines.getLista();
+            for (Medicine medicine : medicines) {
+                modelList.addElement(medicine);
+            }
+        }
+        
+        jListSymptonsCreates.setModel(modelList);
     }
 
     /**
@@ -44,8 +104,8 @@ public class NewDisease extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldNameSymptons = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListDiagnosis = new javax.swing.JList();
-        jButton1 = new javax.swing.JButton();
+        jListSymptons = new javax.swing.JList();
+        jButtonNewSymptom = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jTextFieldNameDisease = new javax.swing.JTextField();
@@ -60,9 +120,15 @@ public class NewDisease extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jListMedicineForDisease = new javax.swing.JList();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jListMedicinesCreates = new javax.swing.JList();
+        jButton1 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        jComboBoxSymptons = new javax.swing.JComboBox();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jListSymptonsCreates = new javax.swing.JList();
+        jButtonInsert = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -78,15 +144,24 @@ public class NewDisease extends javax.swing.JFrame {
 
         jTextFieldNameSymptons.setText("jTextField1");
 
-        jScrollPane1.setViewportView(jListDiagnosis);
+        jScrollPane1.setViewportView(jListSymptons);
 
-        jButton1.setText("Insert");
+        jButtonNewSymptom.setText("New Symptom");
+        jButtonNewSymptom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNewSymptomActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Delete");
 
         jButton3.setText("Edit");
 
-        jTextFieldNameDisease.setText("jTextField2");
+        jTextFieldNameDisease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNameDiseaseActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -98,7 +173,12 @@ public class NewDisease extends javax.swing.JFrame {
 
         jComboBoxTypeMedicine.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton4.setText("Insert");
+        jButton4.setText("New Medicine");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Edit");
 
@@ -111,34 +191,45 @@ public class NewDisease extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jListMedicineForDisease);
 
+        jScrollPane4.setViewportView(jListMedicinesCreates);
+
+        jButton1.setText("<");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
+                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton4)
+                                .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton6))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jComboBoxTypeMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jComboBoxMedicines, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton6))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jComboBoxTypeMedicine, 0, 161, Short.MAX_VALUE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jComboBoxMedicines, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jTextFieldNameMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldNameMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,10 +252,39 @@ public class NewDisease extends javax.swing.JFrame {
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+                        .addGap(33, 33, 33))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton1)
+                        .addContainerGap(74, Short.MAX_VALUE))))
         );
+
+        jListSymptonsCreates.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { " " };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(jListSymptonsCreates);
+
+        jButtonInsert.setText("<");
+        jButtonInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInsertActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Back");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -172,44 +292,50 @@ public class NewDisease extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldNameDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(213, 213, 213)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextFieldNameSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jComboBoxSymptons, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton1)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(jButton3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton2))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                                .addComponent(jButtonNewSymptom)
+                                .addGap(12, 12, 12)
+                                .addComponent(jButton3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2))
+                            .addComponent(jTextFieldNameSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonInsert)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldNameDisease, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton7)
+                                .addGap(130, 130, 130)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(39, 39, 39))
             .addComponent(jSeparator2)
             .addComponent(jSeparator3)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -221,24 +347,72 @@ public class NewDisease extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldNameSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNameSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jButtonNewSymptom)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addGap(4, 4, 4)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(jButtonInsert)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(10, 10, 10))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
+        // TODO add your handling code here:
+        String symptom = (String) jListSymptonsCreates.getSelectedValue();
+        DefaultListModel modelList = new DefaultListModel();
+        
+        
+        if(modelList.isEmpty()){
+           modelList.add(0, symptom);
+         
+        }else{
+            int last =  modelList.lastIndexOf(jListSymptons);
+            modelList.add(last++, symptom);
+        }
+        
+        jListSymptons.setModel(modelList);
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_jButtonInsertActionPerformed
+
+    private void jTextFieldNameDiseaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNameDiseaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNameDiseaseActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new NewMedicine(listMedicines).setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButtonNewSymptomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewSymptomActionPerformed
+        // TODO add your handling code here:
+        new NewSymptom(listSymptons).setVisible(true);
+    }//GEN-LAST:event_jButtonNewSymptomActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,20 +456,26 @@ public class NewDisease extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButtonInsert;
+    private javax.swing.JButton jButtonNewSymptom;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBoxMedicines;
-    private javax.swing.JComboBox jComboBoxSymptons;
     private javax.swing.JComboBox jComboBoxTypeMedicine;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jListDiagnosis;
     private javax.swing.JList jListMedicineForDisease;
+    private javax.swing.JList jListMedicinesCreates;
+    private javax.swing.JList jListSymptons;
+    private javax.swing.JList jListSymptonsCreates;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -303,10 +483,6 @@ public class NewDisease extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNameMedicine;
     private javax.swing.JTextField jTextFieldNameSymptons;
     // End of variables declaration//GEN-END:variables
- private void loadcombBox() {
-    jComboBoxSymptons.setModel(new DefaultComboBoxModel<Symptom>);
-     
- }
-    
+
 
 }

@@ -53,7 +53,23 @@ public class ListPatientsCrud implements ListPeoples {
 
     @Override
     public boolean delete(int cod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Patient patient : patients) {
+            if(patient.getCod() == cod){
+                patients.remove(patient);
+                return true;
+            }
+        }
+       return false;
+    
+    }
+    
+    public Patient detais(int cod){
+        for (Patient patient : patients) {
+           if(patient.getCod()==cod){
+               return patient;
+           } 
+        }
+        return null;
     }
 
     @Override
@@ -167,5 +183,21 @@ public class ListPatientsCrud implements ListPeoples {
 
     public List<Patient> getLista() {
         return this.patients;
+    }
+    
+    public Patient consult(int cod){
+        int meio, fim = 0, inicio;
+        inicio = patients.size() - 1;
+        while (fim <= inicio) {
+            meio = (fim + inicio) / 2;
+            if (patients.get(meio).getCod() == cod) {
+                return patients.get(meio);
+            } else if (patients.get(meio).getCod() < cod) {
+                fim = meio + 1;
+            } else {
+                inicio = meio - 1;
+            }
+        }
+        return null;
     }
 }

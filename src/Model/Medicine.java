@@ -12,21 +12,22 @@ package Model;
 public class Medicine {
     
     private String name; 
-    //private MedicineType typeMedicine;
+    private String typeMedicine;
     private String type;
     
-    public Medicine(String name){
+    public Medicine(String name, String type){
         this.name = name;
+        this.typeMedicine = type;
         
     }
 
      public String writeFile() {
-           String string = getName()+";\n";
+           String string = getName()+";"+getTypeMedicine()+";\n";
            return string;
      }
      
       public String toString() {
-           String string = getName();
+           String string = getName()+" - "+getTypeMedicine();
            return string;
      }
     
@@ -60,6 +61,20 @@ public class Medicine {
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * @return the typeMedicine
+     */
+    public String getTypeMedicine() {
+        return typeMedicine;
+    }
+
+    /**
+     * @param typeMedicine the typeMedicine to set
+     */
+    public void setTypeMedicine(String typeMedicine) {
+        this.typeMedicine = typeMedicine;
     }
     
     

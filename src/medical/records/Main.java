@@ -5,7 +5,7 @@
  */
 package medical.records;
 
-import Frames.teste;
+import Frames.DashboardProvisional;
 
 /**
  *
@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new teste().setVisible(true);
+        new DashboardProvisional().setVisible(true);
     }
     
 }

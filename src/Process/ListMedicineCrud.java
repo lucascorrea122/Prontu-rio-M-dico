@@ -6,6 +6,7 @@
 package Process;
 
 import Model.Medicine;
+import Model.MedicineType;
 import Model.Symptom;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import jdk.nashorn.internal.codegen.types.Type;
 
 /**
  *
@@ -56,6 +58,7 @@ public class ListMedicineCrud {
     public void readingMedicines() throws FileNotFoundException, IOException {
         String name = "", line, convert = "";
         int codig = 0, aux = 0;
+        String tipo="";
 
         BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir")
                 + System.getProperty("file.separator") + this.name + ".csv"));
@@ -71,6 +74,8 @@ public class ListMedicineCrud {
                             case 0:
                                 name = convert;
                                 break;
+                            case 1:
+                                tipo = convert;
                         }
                         //</editor-fold>
 
@@ -82,7 +87,7 @@ public class ListMedicineCrud {
 
                 }
 
-                Medicine medicine = new Medicine(name);
+                Medicine medicine = new Medicine(name, tipo);
                 aux = 0;
                 this.medicines.add(medicine);
                 aux = 0;

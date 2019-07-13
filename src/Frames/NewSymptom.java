@@ -30,6 +30,8 @@ public class NewSymptom extends javax.swing.JFrame {
         initComponents();
         this.listSymptons = listSymptonsCrud;
         listar(0, false);
+        this.setLocationRelativeTo(null);
+        jButtonRemoveDiagnosis.setEnabled(false);
         
      }
 
@@ -52,6 +54,7 @@ public class NewSymptom extends javax.swing.JFrame {
         jButtonRemoveDiagnosis = new javax.swing.JButton();
         jButtonNewDiagnosis = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,29 +63,49 @@ public class NewSymptom extends javax.swing.JFrame {
 
         jLabel2.setText("Name: ");
 
-        jTextFieldNameSymptom.setText("jTextField1");
-
         jListSymptom.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { " " };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        jListSymptom.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListSymptomValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListSymptom);
 
         jComboBoxDiagnosis.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
 
-        jButtonInsertDiagnosis.setText("Add Diagnosis");
+        jButtonInsertDiagnosis.setText("Add Symptom");
         jButtonInsertDiagnosis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonInsertDiagnosisActionPerformed(evt);
             }
         });
 
-        jButtonRemoveDiagnosis.setText("Remove Diagnosis");
+        jButtonRemoveDiagnosis.setText("Remove Symptom");
+        jButtonRemoveDiagnosis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveDiagnosisActionPerformed(evt);
+            }
+        });
 
         jButtonNewDiagnosis.setText("New Diagnosis");
 
-        jButton1.setText("Back");
+        jButton1.setText("Menu");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Dispose");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,15 +130,18 @@ public class NewSymptom extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addGap(154, 154, 154)
                 .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addGap(32, 32, 32)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldNameSymptom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -176,6 +202,46 @@ public class NewSymptom extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButtonInsertDiagnosisActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new DashboardProvisional().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonRemoveDiagnosisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveDiagnosisActionPerformed
+        // TODO add your handling code here:
+        String codig = (String) jListSymptom.getSelectedValue();
+        int auxx = pegaCodigo(codig);
+        listSymptons.delete(auxx);
+        listar(0, false);
+    }//GEN-LAST:event_jButtonRemoveDiagnosisActionPerformed
+
+    private void jListSymptomValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListSymptomValueChanged
+        // TODO add your handling code here:
+        
+        if(jListSymptom.isSelectionEmpty()){
+            jButtonRemoveDiagnosis.setEnabled(false);
+        }else{
+            jButtonRemoveDiagnosis.setEnabled(true);
+        }
+    }//GEN-LAST:event_jListSymptomValueChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public int pegaCodigo(String codig) {
+        int end = 0;
+        for (int i = 0; i < codig.length(); i++) {
+            if (codig.charAt(i) == '-') {
+                end = i - 1;
+                break;
+            }
+        }
+        codig = codig.substring(0, end);
+        return Integer.parseInt(codig);
+    }
     /**
      * @param args the command line arguments
      */
@@ -213,6 +279,7 @@ public class NewSymptom extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonInsertDiagnosis;
     private javax.swing.JButton jButtonNewDiagnosis;
     private javax.swing.JButton jButtonRemoveDiagnosis;

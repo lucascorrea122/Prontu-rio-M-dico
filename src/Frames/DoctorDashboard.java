@@ -33,8 +33,11 @@ public class DoctorDashboard extends javax.swing.JFrame {
     public DoctorDashboard(ListPatientsCrud listPatients) {
         initComponents();
         jButtonAttend.setEnabled(false);
+        jButtonDelete.setVisible(false);
+        jButtonEdit.setVisible(false);
         this.listPatients = listPatients;
         listar(0,false);
+        this.setLocationRelativeTo(null);
     }
     
     
@@ -70,16 +73,31 @@ public class DoctorDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListPatients = new javax.swing.JList();
         jButtonAttend = new javax.swing.JButton();
+        jButtonEdit = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuNewAttendance = new javax.swing.JMenu();
         jMenuItemNewPatient = new javax.swing.JMenuItem();
         jButtonMedicine = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,7 +122,28 @@ public class DoctorDashboard extends javax.swing.JFrame {
             }
         });
 
-        jMenuNewAttendance.setText("File");
+        jButtonEdit.setText("Edit");
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditActionPerformed(evt);
+            }
+        });
+
+        jButtonDelete.setText("Delete");
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Logout");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jMenuNewAttendance.setText("Options");
 
         jMenuItemNewPatient.setText("New Patient");
         jMenuItemNewPatient.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +161,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
         });
         jMenuNewAttendance.add(jButtonMedicine);
 
-        jMenuItem2.setText("New Attendance");
+        jMenuItem2.setText("New Disease");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -141,16 +180,26 @@ public class DoctorDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAttend)
                 .addGap(180, 180, 180))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonEdit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonDelete))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,14 +210,25 @@ public class DoctorDashboard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addContainerGap(207, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonEdit)
+                    .addComponent(jButtonDelete))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            new NewDisease().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(DoctorDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItemNewPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewPatientActionPerformed
@@ -185,8 +245,12 @@ public class DoctorDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(jListPatients.isSelectionEmpty()){
             jButtonAttend.setEnabled(false);
+            jButtonDelete.setVisible(false);
+            jButtonEdit.setVisible(false);
         }else{
             jButtonAttend.setEnabled(true);
+             jButtonDelete.setVisible(true);
+            jButtonEdit.setVisible(true);
         }
         
     }//GEN-LAST:event_jListPatientsValueChanged
@@ -200,6 +264,44 @@ public class DoctorDashboard extends javax.swing.JFrame {
         new NewMedicine(this.listMedicine).setVisible(true);
     }//GEN-LAST:event_jButtonMedicineActionPerformed
 
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
+        // TODO add your handling code here:
+        String codig = (String) jListPatients.getSelectedValue();
+
+        Patient patient = listPatients.detais(pegaCodigo(codig));
+        
+        NewPatient frame = new NewPatient(listPatients);
+        frame.view(patient);
+        
+        
+        
+    }//GEN-LAST:event_jButtonEditActionPerformed
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        // TODO add your handling code here:
+        String codig = (String) jListPatients.getSelectedValue();
+        int auxx = pegaCodigo(codig);
+        listPatients.delete(auxx);
+        listar(0, false);
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.exit(WIDTH);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public int pegaCodigo(String codig) {
+        int end = 0;
+        for (int i = 0; i < codig.length(); i++) {
+            if (codig.charAt(i) == '-') {
+                end = i - 1;
+                break;
+            }
+        }
+        codig = codig.substring(0, end);
+        return Integer.parseInt(codig);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -237,7 +339,10 @@ public class DoctorDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAttend;
+    private javax.swing.JButton jButtonDelete;
+    private javax.swing.JButton jButtonEdit;
     private javax.swing.JMenuItem jButtonMedicine;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList jListPatients;
@@ -246,6 +351,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemNewPatient;
     private javax.swing.JMenu jMenuNewAttendance;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -24,7 +24,7 @@ public class Doctor extends People {
     
     @Override
     public String toString(){
-        String dados = super.getCod()+super.getName()+" - Doctor";
+        String dados = super.getCod()+" - "+super.getName()+" - Doctor";
         return dados;
     }
     
