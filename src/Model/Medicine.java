@@ -12,16 +12,25 @@ package Model;
 public class Medicine {
     
     private String name; 
-    private int quantidade;
-    private MedicineType typeMedicine;
+    //private MedicineType typeMedicine;
+    private String type;
     
-    
-    public Medicine(String name, int quantidade, MedicineType type){
+    public Medicine(String name){
         this.name = name;
-        this.quantidade = quantidade;
-        this.typeMedicine = type;
+        
     }
 
+     public String writeFile() {
+           String string = getName()+";\n";
+           return string;
+     }
+     
+      public String toString() {
+           String string = getName();
+           return string;
+     }
+    
+    
     /**
      * @return the name
      */
@@ -36,32 +45,21 @@ public class Medicine {
         this.name = name;
     }
 
+
+   
+
     /**
-     * @return the quantidade
+     * @return the type
      */
-    public int getQuantidade() {
-        return quantidade;
+    public String getType() {
+        return type;
     }
 
     /**
-     * @param quantidade the quantidade to set
+     * @param type the type to set
      */
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    /**
-     * @return the typeMedicine
-     */
-    public MedicineType getTypeMedicine() {
-        return typeMedicine;
-    }
-
-    /**
-     * @param typeMedicine the typeMedicine to set
-     */
-    public void setTypeMedicine(MedicineType typeMedicine) {
-        this.typeMedicine = typeMedicine;
+    public void setType(String type) {
+        this.type = type;
     }
     
     

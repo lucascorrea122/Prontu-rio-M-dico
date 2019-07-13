@@ -5,26 +5,30 @@
  */
 package Model;
 
+
 /**
  *
  * @author LucasCorrea
  */
-public class Secretary extends People {
+public class Administrator extends People {
 
-    public Secretary(String name, int year, int id) {
+    
+    
+    public Administrator(String name, int year, int id) {
         super(name, year, id);
     }
 
     @Override
     public String writeFile() {
-        String writeFile = super.getCod()+";"+super.getName()+";"+super.getYear()+"\n";
+        String writeFile = super.getCod()+";"+super.getName()+";"+super.getYear()+";"+super.getId()+";\n";
         return writeFile;    
     }
     
     
     @Override
     public String toString(){
-        String dados = super.getCod()+super.getName()+" - Secretary";
+        String dados = super.getCod()+" - "+super.getName()+" - Administrator";
         return dados;
     }
+    
 }

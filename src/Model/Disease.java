@@ -27,10 +27,8 @@ public class Disease {
    }         
     
    
-   public Disease(String name, gravity gravity, List<Diagnosis> diagnosis){
+   public Disease(String name){
        this.name = name;
-       this.gravity = gravity;
-       this.diagnosis = diagnosis;
    }
    
    /**

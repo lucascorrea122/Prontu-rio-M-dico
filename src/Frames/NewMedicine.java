@@ -5,17 +5,51 @@
  */
 package Frames;
 
+import Model.Medicine;
+import Model.Symptom;
+import Process.ListMedicineCrud;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LucasCorrea
  */
 public class NewMedicine extends javax.swing.JFrame {
 
+    private ListMedicineCrud listMedicine = new ListMedicineCrud("Medicines");
+    
+    
     /**
      * Creates new form NewMedicine
      */
-    public NewMedicine() {
+    public NewMedicine(ListMedicineCrud listMedicine) {
         initComponents();
+        this.listMedicine = listMedicine;
+        listar(0, false);
+    }
+    
+    
+    public void listar(int cod, boolean isPesquisa) {
+        DefaultListModel modelList = new DefaultListModel();
+
+        if (isPesquisa) {
+            Medicine medicines = listMedicine.consultByCode(cod);
+            if (medicines == null) {
+                JOptionPane.showMessageDialog(null, "Imóvel não encontrado");
+            } else {
+                modelList.addElement(medicines.toString());
+                
+            }
+        } else {
+            List<Medicine> medicine = listMedicine.getLista();
+            for (Medicine medicine1 : medicine) {
+                modelList.addElement(medicine1.toString());
+            }
+        }
+        
+        jListMedicines.setModel(modelList);
     }
 
     /**
@@ -35,6 +69,8 @@ public class NewMedicine extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
+        jTextMedicine = new javax.swing.JTextField();
+        jTextMedicineType = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,6 +90,11 @@ public class NewMedicine extends javax.swing.JFrame {
         jLabel3.setText("Medicines");
 
         jButton1.setText("Insert");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,10 +102,16 @@ public class NewMedicine extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextMedicineType)))
+                .addContainerGap(265, Short.MAX_VALUE))
             .addComponent(jSeparator1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(20, 20, 20)
@@ -80,15 +127,19 @@ public class NewMedicine extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel1)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextMedicineType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)))
@@ -96,6 +147,26 @@ public class NewMedicine extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String name;
+        
+        if(jTextMedicine.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Writing all itens!");
+        }else{
+            name = jTextMedicine.getText();
+        
+            
+            Medicine medicine = new Medicine(name);
+            listMedicine.insert(medicine);
+            listMedicine.writeFile();
+       
+            jTextMedicine.setText("");
+            listar(0, false);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,7 +198,7 @@ public class NewMedicine extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewMedicine().setVisible(true);
+                new NewMedicine(null).setVisible(true);
             }
         });
     }
@@ -141,5 +212,7 @@ public class NewMedicine extends javax.swing.JFrame {
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTextMedicine;
+    private javax.swing.JTextField jTextMedicineType;
     // End of variables declaration//GEN-END:variables
 }

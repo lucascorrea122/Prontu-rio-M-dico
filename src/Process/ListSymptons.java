@@ -6,22 +6,22 @@
 package Process;
 
 import Model.People;
+import Model.Symptom;
 import java.util.List;
 
 /**
  *
  * @author LucasCorrea
  */
-public interface ListPeoples {
- 
+public interface ListSymptons {
     
-    public boolean insert(People person);
+    public boolean insert(Symptom symptom);
     
-    public People consultBtCode(int cod);
+    public Symptom consultBtCode(int cod);
     
-    public People consultByName(String name);
+    public Symptom consultByName(String name);
     
-    public boolean edit(int cod, People person);
+    public boolean edit(int cod, Symptom symptom);
     
     public boolean delete(int cod);
     
@@ -36,14 +36,6 @@ public interface ListPeoples {
     public boolean readFile();
     
     public void readingUsers();
-    
-    
-    
-    
-    
-    
-    
-            
     
     
     

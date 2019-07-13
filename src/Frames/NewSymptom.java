@@ -5,18 +5,33 @@
  */
 package Frames;
 
+import Model.People;
+import Model.Symptom;
+import Process.ListPeopleCrud;
+import Process.ListSymptonsCrud;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LucasCorrea
  */
 public class NewSymptom extends javax.swing.JFrame {
 
+     private List<Symptom> symptons = new ArrayList();
+     private ListSymptonsCrud listSymptons = new ListSymptonsCrud("Symptons");
+    
     /**
      * Creates new form NewSymptom
      */
-    public NewSymptom() {
+    public NewSymptom(ListSymptonsCrud listSymptonsCrud) {
         initComponents();
-    }
+        this.listSymptons = listSymptonsCrud;
+        listar(0, false);
+        
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,7 +46,7 @@ public class NewSymptom extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextFieldNameSymptom = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListDiagnosis = new javax.swing.JList();
+        jListSymptom = new javax.swing.JList();
         jComboBoxDiagnosis = new javax.swing.JComboBox();
         jButtonInsertDiagnosis = new javax.swing.JButton();
         jButtonRemoveDiagnosis = new javax.swing.JButton();
@@ -47,16 +62,21 @@ public class NewSymptom extends javax.swing.JFrame {
 
         jTextFieldNameSymptom.setText("jTextField1");
 
-        jListDiagnosis.setModel(new javax.swing.AbstractListModel() {
+        jListSymptom.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { " " };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jListDiagnosis);
+        jScrollPane1.setViewportView(jListSymptom);
 
         jComboBoxDiagnosis.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
 
         jButtonInsertDiagnosis.setText("Add Diagnosis");
+        jButtonInsertDiagnosis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInsertDiagnosisActionPerformed(evt);
+            }
+        });
 
         jButtonRemoveDiagnosis.setText("Remove Diagnosis");
 
@@ -79,9 +99,9 @@ public class NewSymptom extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonNewDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jComboBoxDiagnosis, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextFieldNameSymptom, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonRemoveDiagnosis)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNameSymptom, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButton1)
@@ -115,6 +135,47 @@ public class NewSymptom extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+     public void listar(int cod, boolean isPesquisa) {
+        DefaultListModel modelList = new DefaultListModel();
+
+        if (isPesquisa) {
+            Symptom symptons = listSymptons.consultBtCode(cod);
+            if (symptons == null) {
+                JOptionPane.showMessageDialog(null, "Imóvel não encontrado");
+            } else {
+                modelList.addElement(symptons.toString());
+                
+            }
+        } else {
+            List<Symptom> symptom = listSymptons.getLista();
+            for (Symptom symptom1 : symptom) {
+                modelList.addElement(symptom1.toString());
+            }
+        }
+        
+        jListSymptom.setModel(modelList);
+    }
+    
+    
+    private void jButtonInsertDiagnosisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertDiagnosisActionPerformed
+        // TODO add your handling code here:
+        String name;
+        
+        if(jTextFieldNameSymptom.getText().trim()==""){
+             JOptionPane.showMessageDialog(null, "Writing all itens!");
+        }else{
+            name = jTextFieldNameSymptom.getText();
+            
+            Symptom symptom = new Symptom(name);
+            listSymptons.insert(symptom);
+            listSymptons.writeFile();
+            listar(0, false);
+            
+        
+        }
+        
+    }//GEN-LAST:event_jButtonInsertDiagnosisActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -145,7 +206,7 @@ public class NewSymptom extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewSymptom().setVisible(true);
+                new NewSymptom(null).setVisible(true);
             }
         });
     }
@@ -158,7 +219,7 @@ public class NewSymptom extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxDiagnosis;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jListDiagnosis;
+    private javax.swing.JList jListSymptom;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldNameSymptom;
     // End of variables declaration//GEN-END:variables

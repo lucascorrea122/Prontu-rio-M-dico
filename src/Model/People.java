@@ -15,12 +15,15 @@ private String name;
 private int year;
 private static int code = 1;
 private int cod;
+private int id;
+
 
     
-public People(String name, int year){
+public People(String name, int year, int id){
     this.name = name;
     this.year = year;
     this.cod = code++;
+    this.id = id;
 }
 
     /**
@@ -57,6 +60,32 @@ public People(String name, int year){
     public int getCod() {
         return cod;
     }
+
+    /**
+     *
+     * @return
+     */
+    public abstract String writeFile();
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     
 
 

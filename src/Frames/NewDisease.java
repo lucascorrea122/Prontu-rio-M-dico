@@ -5,17 +5,27 @@
  */
 package Frames;
 
+import Model.Symptom;
+import Model.UserType;
+import Process.ListSymptonsCrud;
+import java.io.IOException;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author LucasCorrea
  */
 public class NewDisease extends javax.swing.JFrame {
+    
+    
+    private ListSymptonsCrud listSymptons = new ListSymptonsCrud("Symptons");
 
     /**
      * Creates new form NewDisease
      */
-    public NewDisease() {
+    public NewDisease() throws IOException {
         initComponents();
+        this.listSymptons.readingSymptons();
     }
 
     /**
@@ -32,7 +42,7 @@ public class NewDisease extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldNameDiagnosis = new javax.swing.JTextField();
+        jTextFieldNameSymptons = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListDiagnosis = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
@@ -52,6 +62,7 @@ public class NewDisease extends javax.swing.JFrame {
         jListMedicineForDisease = new javax.swing.JList();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        jComboBoxSymptons = new javax.swing.JComboBox();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -63,9 +74,9 @@ public class NewDisease extends javax.swing.JFrame {
 
         jLabel2.setText("Disease:");
 
-        jLabel3.setText("Diagnosis:");
+        jLabel3.setText("Symptoms:");
 
-        jTextFieldNameDiagnosis.setText("jTextField1");
+        jTextFieldNameSymptons.setText("jTextField1");
 
         jScrollPane1.setViewportView(jListDiagnosis);
 
@@ -177,15 +188,20 @@ public class NewDisease extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldNameDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTextFieldNameSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jComboBoxSymptons, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jButton1)
                                         .addGap(12, 12, 12)
                                         .addComponent(jButton3)
                                         .addGap(18, 18, 18)
                                         .addComponent(jButton2))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(45, Short.MAX_VALUE))
             .addComponent(jSeparator2)
             .addComponent(jSeparator3)
@@ -205,7 +221,8 @@ public class NewDisease extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldNameDiagnosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNameSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxSymptons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -253,7 +270,7 @@ public class NewDisease extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewDisease().setVisible(true);
+                new NewDisease(null).setVisible(true);
             }
         });
     }
@@ -267,6 +284,7 @@ public class NewDisease extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBoxMedicines;
+    private javax.swing.JComboBox jComboBoxSymptons;
     private javax.swing.JComboBox jComboBoxTypeMedicine;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -281,8 +299,14 @@ public class NewDisease extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextFieldNameDiagnosis;
     private javax.swing.JTextField jTextFieldNameDisease;
     private javax.swing.JTextField jTextFieldNameMedicine;
+    private javax.swing.JTextField jTextFieldNameSymptons;
     // End of variables declaration//GEN-END:variables
+ private void loadcombBox() {
+    jComboBoxSymptons.setModel(new DefaultComboBoxModel<Symptom>);
+     
+ }
+    
+
 }

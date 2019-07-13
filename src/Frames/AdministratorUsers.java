@@ -5,8 +5,17 @@
  */
 package Frames;
 
+import Model.Administrator;
+import Model.Doctor;
+import Model.People;
+import Model.Secretary;
 import Model.UserType;
+import Process.ListPeopleCrud;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,14 +23,43 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class AdministratorUsers extends javax.swing.JFrame {
 
+    
+    private List<People> persons = new ArrayList();
+    private ListPeopleCrud listUsers = new ListPeopleCrud("Adms");
+    private int aux;
+    
     /**
      * Creates new form AdministratorUsers
      */
-    public AdministratorUsers() {
+    public AdministratorUsers(ListPeopleCrud listUsers) {
         initComponents();
         loadcombBox();
+        
+        this.listUsers = listUsers;
+        this.setLocationRelativeTo(null);
     }
 
+        public void listar(int cod, boolean isPesquisa) {
+        DefaultListModel modelList = new DefaultListModel();
+
+        if (isPesquisa) {
+            People users = listUsers.consultBtCode(cod);
+            if (users == null) {
+                JOptionPane.showMessageDialog(null, "Imóvel não encontrado");
+            } else {
+                modelList.addElement(users.toString());
+                
+            }
+        } else {
+            List<People> peoples = listUsers.getLista();
+            for (People people : peoples) {
+                modelList.addElement(people.toString());
+            }
+        }
+
+        ListUsers.setModel(modelList);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,6 +88,7 @@ public class AdministratorUsers extends javax.swing.JFrame {
         jCheckBox2 = new javax.swing.JCheckBox();
         jButtonEdit = new javax.swing.JButton();
         jButtonLogout = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,6 +97,11 @@ public class AdministratorUsers extends javax.swing.JFrame {
         jButtonDelete.setText("Delete");
 
         jButtonNewUser.setText("New User");
+        jButtonNewUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNewUserActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("New Users");
 
@@ -66,6 +110,11 @@ public class AdministratorUsers extends javax.swing.JFrame {
         jLabel3.setText("ID:");
 
         jComboBoxUserType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        jComboBoxUserType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxUserTypeActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Type User:");
 
@@ -90,6 +139,13 @@ public class AdministratorUsers extends javax.swing.JFrame {
         jButtonEdit.setText("Edit");
 
         jButtonLogout.setText("Logout");
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,7 +183,11 @@ public class AdministratorUsers extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(98, 98, 98)))
+                        .addGap(98, 98, 98))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jCheckBoxAllUsers)
@@ -149,9 +209,9 @@ public class AdministratorUsers extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCheckBoxAllUsers)
                             .addComponent(jCheckBoxDorctos)
@@ -160,7 +220,8 @@ public class AdministratorUsers extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
+                        .addComponent(jButton1)
+                        .addGap(88, 88, 88)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addComponent(jLabel1)
@@ -212,6 +273,61 @@ public class AdministratorUsers extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void jButtonNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewUserActionPerformed
+        // TODO add your handling code here:
+        String name = "";
+        int id = 0, type;
+        
+        
+        if(jTextName.getText().trim().equals("")||jTextID.getText().trim().equals("")||jComboBoxUserType.getSelectedItem().
+                equals("")){
+            JOptionPane.showMessageDialog(null, "Writing all itens!");
+        }else{
+            name = jTextName.getText();
+            id = Integer.parseInt(jTextID.getText());
+            type = jComboBoxUserType.getSelectedIndex();
+            
+            switch(type){
+                case 0:
+                    Administrator adm = new Administrator(name, type, id);
+                    listUsers.insert(adm);
+                    listUsers.writeFile();
+                    break;
+                case 1:
+                    Doctor doctor = new Doctor(name, type, id);
+                    listUsers.insert(doctor);
+                    listUsers.writeFile();
+                    break;
+                case 2:
+                    Secretary secretary = new Secretary(name, type, id);
+                    listUsers.insert(secretary);
+                    listUsers.writeFile();
+                    break;
+                default:    
+                    break;
+            }
+            
+            
+            jTextName.setText("");
+            jTextID.setText("");
+            jComboBoxUserType.setSelectedIndex(0);
+            
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_jButtonNewUserActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        listar(0, false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBoxUserTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxUserTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxUserTypeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,13 +358,14 @@ public class AdministratorUsers extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdministratorUsers().setVisible(true);
+                new AdministratorUsers(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList ListUsers;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonEdit;
     private javax.swing.JButton jButtonLogout;

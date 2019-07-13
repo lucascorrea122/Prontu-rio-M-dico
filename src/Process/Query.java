@@ -67,15 +67,18 @@ public class Query {
 
         if (writer == true) {
 
-            filePath = System.getenv("APPDATA") + "\\.RpMed" + "\\" + fileName;
+           filePath = System.getenv("user.dir") + System.getProperty("file.separator") + fileName;
+                    
+                    
 
-        } else if (new File(System.getenv("APPDATA") + "\\.RpMed" + "\\" + fileName).exists()) {
+        } else if (new File(System.getenv("user.dir") + System.getProperty("file.separator") + fileName).exists()) {
 
-            filePath = System.getenv("APPDATA") + "\\.RpMed" + "\\" + fileName;
+            filePath = System.getenv("user.dir") + System.getProperty("file.separator") + fileName;
 
         }
         return filePath;
 
     }
+
     
 }

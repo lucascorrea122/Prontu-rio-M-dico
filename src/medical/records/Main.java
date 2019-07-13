@@ -5,24 +5,20 @@
  */
 package medical.records;
 
-import Frames.AdministratorUsers;
+import Frames.teste;
 
 /**
  *
  * @author LucasCorrea
  */
-public class MedicalRecords {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        AdministratorUsers oi = new AdministratorUsers();
-        oi.setVisible(true);
-        
-        
+        new teste().setVisible(true);
     }
     
 }

@@ -5,17 +5,60 @@
  */
 package Frames;
 
+import Model.Patient;
+import Model.Symptom;
+import Process.ListMedicineCrud;
+import Process.ListPatientsCrud;
+import Process.ListPeopleCrud;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LucasCorrea
  */
 public class DoctorDashboard extends javax.swing.JFrame {
 
+    
+    private ListPatientsCrud listPatients = new ListPatientsCrud("Patients");
+    private ListMedicineCrud listMedicine = new ListMedicineCrud("Medicines");
+    
     /**
      * Creates new form Doctor
      */
-    public DoctorDashboard() {
+    public DoctorDashboard(ListPatientsCrud listPatients) {
         initComponents();
+        jButtonAttend.setEnabled(false);
+        this.listPatients = listPatients;
+        listar(0,false);
+    }
+    
+    
+     public void listar(int cod, boolean isPesquisa) {
+        DefaultListModel modelList = new DefaultListModel();
+
+        if (isPesquisa) {
+            
+            Patient patients = listPatients.consultByCode(cod);
+            if (patients == null) {
+                JOptionPane.showMessageDialog(null, "Imóvel não encontrado");
+            } else {
+                modelList.addElement(patients.toString());
+                
+            }
+        } else {
+            List<Patient> patient = listPatients.getLista();
+            for (Patient patient1 : patient) {
+                modelList.addElement(patient1.toString());
+            }
+            
+        }
+        
+        jListPatients.setModel(modelList);
     }
 
     /**
@@ -29,11 +72,12 @@ public class DoctorDashboard extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jListPatients = new javax.swing.JList();
         jButtonAttend = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuNewAttendance = new javax.swing.JMenu();
         jMenuItemNewPatient = new javax.swing.JMenuItem();
+        jButtonMedicine = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
@@ -41,19 +85,42 @@ public class DoctorDashboard extends javax.swing.JFrame {
 
         jLabel1.setText("Consultations");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        jListPatients.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { " " };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jListPatients.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListPatientsValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jListPatients);
 
         jButtonAttend.setText("Attend Patient");
+        jButtonAttend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAttendActionPerformed(evt);
+            }
+        });
 
         jMenuNewAttendance.setText("File");
 
         jMenuItemNewPatient.setText("New Patient");
+        jMenuItemNewPatient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemNewPatientActionPerformed(evt);
+            }
+        });
         jMenuNewAttendance.add(jMenuItemNewPatient);
+
+        jButtonMedicine.setText("New Medicine");
+        jButtonMedicine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMedicineActionPerformed(evt);
+            }
+        });
+        jMenuNewAttendance.add(jButtonMedicine);
 
         jMenuItem2.setText("New Attendance");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +171,35 @@ public class DoctorDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItemNewPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewPatientActionPerformed
+        // TODO add your handling code here:
+        new NewPatient(this.listPatients).setVisible(true);
+    }//GEN-LAST:event_jMenuItemNewPatientActionPerformed
+
+    private void jButtonAttendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAttendActionPerformed
+        // TODO add your handling code here:
+        listar(0, false);
+    }//GEN-LAST:event_jButtonAttendActionPerformed
+
+    private void jListPatientsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListPatientsValueChanged
+        // TODO add your handling code here:
+        if(jListPatients.isSelectionEmpty()){
+            jButtonAttend.setEnabled(false);
+        }else{
+            jButtonAttend.setEnabled(true);
+        }
+        
+    }//GEN-LAST:event_jListPatientsValueChanged
+
+    private void jButtonMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMedicineActionPerformed
+        try {
+            listMedicine.readingMedicines();
+        } catch (IOException ex) {
+            Logger.getLogger(DoctorDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        new NewMedicine(this.listMedicine).setVisible(true);
+    }//GEN-LAST:event_jButtonMedicineActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -135,15 +231,16 @@ public class DoctorDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DoctorDashboard().setVisible(true);
+                new DoctorDashboard(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAttend;
+    private javax.swing.JMenuItem jButtonMedicine;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
+    private javax.swing.JList jListPatients;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;

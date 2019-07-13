@@ -5,18 +5,35 @@
  */
 package Frames;
 
+import Model.Patient;
+import Model.Symptom;
+import Process.ListPatientsCrud;
+import Process.ListPeopleCrud;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LucasCorrea
  */
 public class NewPatient extends javax.swing.JFrame {
 
+     private ListPatientsCrud listPatients = new ListPatientsCrud("Patients");
+   
+    
     /**
      * Creates new form NewPatient
      */
-    public NewPatient() {
+    public NewPatient(ListPatientsCrud listPatients) {
         initComponents();
+        this.listPatients = listPatients;
     }
+    
+    
+  
+
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,7 +56,6 @@ public class NewPatient extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextFieldNamePatient = new javax.swing.JTextField();
         jTextFieldYearPatient = new javax.swing.JTextField();
-        jTextFieldDDPatient = new javax.swing.JTextField();
         jTextFieldNumberPatient = new javax.swing.JTextField();
         jTextFieldAdressPatient = new javax.swing.JTextField();
         jTextFieldNumberAdrassPatient = new javax.swing.JTextField();
@@ -71,6 +87,11 @@ public class NewPatient extends javax.swing.JFrame {
         jLabel6.setText("Nationale");
 
         jButton1.setText("SAVE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenuExit.setText("Exit");
         jMenuBar1.add(jMenuExit);
@@ -97,14 +118,10 @@ public class NewPatient extends javax.swing.JFrame {
                     .addComponent(jTextFieldYearPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNamePatient, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextFieldDDPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(jTextFieldNumberPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextFieldAdressPatient, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldAdressPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextFieldNumberAdrassPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldNumberAdrassPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNumberPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -132,7 +149,6 @@ public class NewPatient extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextFieldDDPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNumberPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -152,6 +168,43 @@ public class NewPatient extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String name, adress, numberAdress, nationale;
+        int year;
+        long phone;
+        
+        if(jTextFieldNamePatient.getText().trim().equals("")||jTextFieldYearPatient.getText().trim().equals("")||
+                jTextFieldAdressPatient.getText().trim().equals("")||jTextFieldNumberAdrassPatient.getText().trim().equals("")||
+                jTextFieldNationalePatient.getText().trim().equals("")|| jTextFieldNumberPatient.getText().trim().equals("")){
+            
+             JOptionPane.showMessageDialog(null, "Writing all itens!");
+        }else{
+            name = jTextFieldNamePatient.getText();
+            adress = jTextFieldAdressPatient.getText();
+            numberAdress = jTextFieldNumberAdrassPatient.getText();
+            nationale = jTextFieldNationalePatient.getText();
+            year = Integer.parseInt(jTextFieldYearPatient.getText());
+            phone = Long.parseLong(jTextFieldNumberPatient.getText());
+            
+            Patient patiente = new Patient(name, year, phone, adress, numberAdress, nationale);
+            
+            listPatients.insert(patiente);
+            listPatients.writeFile();
+            
+            //<editor-fold defaultstate="collapsed" desc="comment">
+            jTextFieldNamePatient.setText("");
+            jTextFieldAdressPatient.setText("");
+            jTextFieldNumberAdrassPatient.setText("");
+            jTextFieldNationalePatient.setText("");
+            jTextFieldYearPatient.setText("");
+            jTextFieldNumberPatient.setText("");
+            //</editor-fold>
+            
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,7 +236,7 @@ public class NewPatient extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewPatient().setVisible(true);
+                new NewPatient(null).setVisible(true);
             }
         });
     }
@@ -205,7 +258,6 @@ public class NewPatient extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTextField jTextFieldAdressPatient;
-    private javax.swing.JTextField jTextFieldDDPatient;
     private javax.swing.JTextField jTextFieldNamePatient;
     private javax.swing.JTextField jTextFieldNationalePatient;
     private javax.swing.JTextField jTextFieldNumberAdrassPatient;

@@ -11,8 +11,21 @@ package Model;
  */
 public class Doctor extends People {
 
-    public Doctor(String name, int year) {
-        super(name, year);
+    public Doctor(String name, int year, int id) {
+        super(name, year, id);
+    }
+
+    @Override
+    public String writeFile() {
+        String writeFile = super.getCod()+";"+super.getName()+";"+super.getYear()+";\n";
+        return writeFile;    
+    }
+    
+    
+    @Override
+    public String toString(){
+        String dados = super.getCod()+super.getName()+" - Doctor";
+        return dados;
     }
     
 }
